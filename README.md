@@ -1,4 +1,8 @@
-# Potatso ![GPLv3 License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+[![donate button](https://img.shields.io/badge/$-donate-ff69b4.svg?maxAge=2592000&amp;style=flat)](https://github.com/haxpor/donate)
+
+![GPLv3 License](https://img.shields.io/badge/License-GPLv3-blue.svg)
+
+# Potatso 
 
 ## Important
 
@@ -20,75 +24,32 @@ Currently, Potatso is compatible with following proxies:
 [Join Telegram Group](https://telegram.me/joinchat/BT0c4z49OGNZXwl9VsO0uQ) to chat with users.
 
 Original Author: [@icodesign](https://twitter.com/icodesign_me)  
-Swift 3 Maintainer: [@haxpor](https://twitter.com/haxpor)
+Swift 4 Maintainer: [@haxpor](https://twitter.com/haxpor)
 
 ## Project Info
 
-Potatso has in total 33 (2 as submodules dependencies as used as local file in Cocoapod) dependencies as following
+Potatso has in total 26 dependencies as following
 
-* 28 Cocoapod dependencies
-* 1 Carthage dependency
-* 4 submodules dependencies
+* 20 Cocoapod dependencies
+* 4 submodules dependencies via local cocoapod
 
-The project is tested with Xcode 8.2 (8C38) on iOS 10.2 (14C92) device with cocoapod version `1.1.1`.
+The project is tested with Xcode `9.4 (9F1027a)` on iOS `11.4 (15F79)` device with cocoapod version `1.4.0`+.  
+If you experienced an expected issue, try to use those versions, if still experience the problem please file the issue.
 
-## Set up Guide - Code
+The project will be further reduced for its dependencies.
+
+## How to Build Project
 
 Perform the following steps to be able to build the project.
 Be warned that you **should not** call `pod update` as newer version of pod frameworks that Potatso depends on might break building process and there will be errors.
 
-1. `git submodule update --init` to update git submodule
-2. `pod install` to pull down dependencies into our project
-3. `carthage update` to pull down dependencies into `Carthage/Checkouts` folder and build each one
-4. Open Xcode **workspace** project (`Potatso.xcworkspace`).
-   1. Click on Potatso project, then click on `General` tap.
-   2. Click on `Potatso` target at Targets section.
-   3. Change its `Bundle Identifier` to match with your desire domain name for example `com.yourdomain.potatso`.
-   4. For the following targets, you change `io.wasin.potatso` to match your domain name. This means if you see `io.wasin.potatso.tunnel`, you change it to `com.yourdomain.potatso.tunnel`.
-      * `PacketTunnel`
-      * `TodayWidget`
-      * `PotatsoLibrary`
-      * `PacketProcessor`
-      * `PotatsoModel`
-      * `PotatsoBase`
-5. Follow the guide in *Set up Guide - Apple Developer Website* section.
-6. Build and Run the project. Done.
+1. `git clone https://github.com/haxpor/Potatso.git` or for faster using less time in cloning `git clone https://github.com/haxpor/Potatso.git --depth=1`
+2. `cd Potatso`
+3. `git submodule update --init` to update git submodule
+4. `pod install` to pull down dependencies into our project
+5. Open `Potatso.xcworkspace` then Build and Run the project. Done.
 
-## Set up Guide - Apple Developer Website
-
-Note that it's better to not allow Xcode to automatically manage your provisioning profile for the application included Potatso (main app), PacketTunnel (extension), and TodayWidget (extension). Most of the time, such provisioning profile won't generate on developer page, or point to generic one which makes it not working!.
-
-So follow the following steps
-
-* Create 3 App IDs for `Potatso`, `PacketTunnel`, and `TodayWidget` on Apple Developer website. Make sure to name bundle id for each one matches bundle identifier you used when setting up with Xcode. In this case `io.wasin.potatso`, `io.wasin.potatso.tunnel`, and `io.wasin.potatso.todaywidget` respectively. Rename to be your domain name freely.
-   * **`Potatso`**  
-      Enable `App Groups`, `Game Center`, `iCloud`, `In-App Purchase`, `Network Extensions`, and `Push Notifications`.
-   * **`PacketTunnel`**  
-      Enable `App Groups`, `Game Center`, `In-App Purchase`, and `Network Extensions`.
-   * **`TodayWidget`**  
-      Enable `App Groups`, `Game Center`, `In-App Purchase`, and `Network Extensions`.
-
-* Create 3 corresponding provisioning profile for each created App ID on Apple Developer website.
-* Now go back to Xcode
-* Click on project -> click on General tap -> select `Potatso` target and uncheck "Automatically manage signing" -> select a proper provisioning profile in both "Signing (Debug)" and "Signing (Release)".
-* Do the same for `PacketTunnel` and `TodayWidget` target.
-
-## Code Notices
-
-There're a couple of issues that needed to look at, but at tested, it doen **not** effect the functionality of the app.
-
-* In file `Potatso/Core/API.swift`, it's the following code focusing on line with comment that I can't figure it out yet how to migrate it to Swift 3 code.  
-
-   ```swift
-   var JSONToMap: AnyObject?
-   if let keyPath = keyPath, keyPath.isEmpty == false {
-       //JSONToMap = (result.value? as AnyObject).value(forKeyPath: keyPath)
-       JSONToMap = nil
-   } else {
-       JSONToMap = result.value as AnyObject?
-   }
-   ```
-* Potatso core code depends on version `1.7.0` of Eureka with manual migration to Swift 3. It's already done and linked to project. But you will see `observeValue()` function in `Eureka/Source/Rows/PostalAddressRow.swift` that has been commented for all of its function code due to Eureka's newer version `2.0.0-beta.1` doesn't include such file in the project anymore, but it still works with no problem. This note is meant to mark that there is going to be a lot of effort if we decide to depend on Eureka version `2.0.0-beta.1` as we need to change a lot of Potatso core code.
+> First two steps are clearly listed here as per [#89](https://github.com/haxpor/Potatso/issues/89); if you download project as zip via Github web interface it will not have enough information to pull down required gitsubmodule, and step 3 will have error. So make sure you clone via command line, or using any git client application before proceeding.
    
 ## How To Contribute
 
@@ -100,10 +61,9 @@ We use the following services or open-source libraries. So we'd like show them h
 
 ### Services
 
-- [Fabric](https://get.fabric.io/)
+- [Fabric](https://get.fabric.io/) -- currently not use anymore
 - [Reveal](http://revealapp.com/)
 - [realm](https://realm.io/)
-- [HelpShift](https://www.helpshift.com)
 
 ### Open-source Libraries
 
@@ -140,8 +100,8 @@ We use the following services or open-source libraries. So we'd like show them h
 
 ## Notice
 
-Potatso 2 is in beta and likely to come out not too long in the future.  
-You can wait to purchase Potatso 2 from App Store, or still use Potatso by building it and installing to your device from this project.
+Potatso 2 was released on [App Store](https://itunes.apple.com/us/app/id1162704202?mt=8)  
+You can purchase it from App Store, or still use Potatso by building it manually and installing to your device from this project.
 
 Please note that Potatso 2 will be closed-source as stated from original author's reason. Read more from [here](https://github.com/haxpor/Potatso/blob/master/ADHERE_LICENSE.md).
 
@@ -150,9 +110,9 @@ Please note that Potatso 2 will be closed-source as stated from original author'
 The development covers a lot of complicated work, costing not only money but also time.
 These are the way to support
 
-- [Download Potatso from Apple Store](https://itunes.apple.com/app/apple-store/id1070901416?pt=2305194&ct=potatso.github&mt=8). (**Recommended**) 
+- [Download Potatso 2 from Apple Store](https://itunes.apple.com/us/app/id1162704202?mt=8). (**Recommended**) 
 - Donate with Alipay to original author. (Account: **leewongstudio.com@gmail.com**)
-- Donate to swift3 maintainer (WeChat: http://imgur.com/lsAao62, or PayPal: haxpor@gmail.com)
+- Donate to swift4 maintainer (WeChat: http://imgur.com/lsAao62, or PayPal: haxpor@gmail.com)
 
 ## License
 
